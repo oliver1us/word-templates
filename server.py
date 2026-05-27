@@ -90,10 +90,12 @@ def generar_certificado_docente():
     doc = DocxTemplate("docs/certificado-docente.docx")
 
     hoy = f"{datetime.now().day} de {meses[datetime.now().month]} de {datetime.now().year}"
-    data["hoy"] = hoy
+    data["hoy"] = data.get("hoy", "")
     data["docente"] = data.get("docente", "").title()
-    data["fecha_inicio"] = convert_date(data.get("fecha_inicio"))
-    data["fecha_fin"] = convert_date(data.get("fecha_fin"))
+    data["fecha_inicio"] = data.get("fecha_inicio", "").title()
+    data["fecha_fin"] = data.get("fecha_fin", "").title()
+    # data["fecha_inicio"] = convert_date(data.get("fecha_inicio"))
+    # data["fecha_fin"] = convert_date(data.get("fecha_fin"))
 
     doc.render(data)
 

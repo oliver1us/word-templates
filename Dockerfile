@@ -1,19 +1,36 @@
-FROM python:3.12-slim
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libreoffice fontconfig && \
-    apt-get clean
+# Stage 1: Build the Go binary
+FROM golang:1.25-alpine AS builder
 
 WORKDIR /app
 
-COPY . .
+COPY go.mod ./
+COPY *.go ./
 
-COPY fonts /usr/share/fonts/truetype/msttcorefonts/
+RUN go mod tidy
+RUN go build -o word-templates-api .
 
+# Stage 2: Runtime
+FROM alpine:latest
+
+# Install libreoffice and fontconfig
+RUN apk update && \
+    apk add --no-cache libreoffice fontconfig ttf-freefont
+
+WORKDIR /app
+
+# Copy custom fonts
+COPY fonts /usr/share/fonts/
 RUN fc-cache -f -v
 
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy binary from builder
+COPY --from=builder /app/word-templates-api .
+
+# Package templates into the image
+COPY docs docs/
+
+# Create tmp directory
+RUN mkdir -p tmp && chmod 777 tmp
 
 EXPOSE 5000
 
-ENTRYPOINT [ "./entrypoint.sh" ]
+CMD ["./word-templates-api"]

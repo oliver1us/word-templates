@@ -1,0 +1,10 @@
+services:
+  word-templates:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./docs:/app/docs
+      - ./fonts:/app/fonts
+    environment:
+      - PORT=5000
