@@ -1,0 +1,115 @@
+{
+	"info": {
+		"_postman_id": "893c52e4-df38-4e8b-a5d6-bd6ff3cf71e4",
+		"name": "Word Templates API",
+		"description": "API to generate PDF documents dynamically by injecting JSON data into .docx templates.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Generate PDF - Carta de Invitación",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"template\": \"carta-invitacion.docx\",\n  \"hoy\": \"26 de mayo de 2026\",\n  \"docente\": \"Juan Perez\",\n  \"nombre_diplomado\": \"DIPLOMADO EN EDUCACIÓN SUPERIOR\",\n  \"nombre_modulo\": \"METODOLOGÍAS ÁGILES\",\n  \"competencia_modulo\": \"Aplica metodologías ágiles para el desarrollo de proyectos.\",\n  \"contenidos_minimos\": \"1. Introducción\\n2. Scrum\\n3. Kanban\\n4. Evaluación\",\n  \"dias_clases\": \"Lunes y Miércoles\",\n  \"fecha_clase_1\": \"01/06/2026\",\n  \"fecha_clase_2\": \"03/06/2026\",\n  \"fecha_clase_3\": \"08/06/2026\",\n  \"fecha_clase_4\": \"10/06/2026\",\n  \"fecha_clase_5\": \"15/06/2026\",\n  \"fecha_clase_6\": \"17/06/2026\",\n  \"objetivo\": \"Mejorar las competencias docentes a través de nuevas metodologías.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/generate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"generate"
+					]
+				},
+				"description": "Generates a PDF document for Carta de Invitación. Use 'Send and Download' in Postman to save the generated PDF."
+			},
+			"response": []
+		},
+		{
+			"name": "Generate PDF - Certificado Docente",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"template\": \"certificado-docente.docx\",\n  \"hoy\": \"30 de junio de 2026\",\n  \"docente\": \"María Antonieta\",\n  \"fecha_inicio\": \"01/05/2026\",\n  \"fecha_fin\": \"30/06/2026\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/generate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"generate"
+					]
+				},
+				"description": "Generates a PDF document for Certificado Docente. Use 'Send and Download' in Postman to save the generated PDF."
+			},
+			"response": []
+		},
+		{
+			"name": "Generate PDF - Cronograma de Clases",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"template\": \"cronograma-clases.docx\",\n  \"nombre_modulo\": \"Desarrollo Backend Avanzado\",\n  \"dias_clases\": \"Martes y Jueves\",\n  \"docente\": \"Ing. Carlos Ruiz\",\n  \"fecha_clase_1\": \"10/08/2026\",\n  \"fecha_clase_2\": \"12/08/2026\",\n  \"fecha_clase_3\": \"17/08/2026\",\n  \"fecha_clase_4\": \"19/08/2026\",\n  \"fecha_clase_5\": \"24/08/2026\",\n  \"fecha_clase_6\": \"26/08/2026\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/generate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"generate"
+					]
+				},
+				"description": "Generates a PDF document for Cronograma de Clases. Use 'Send and Download' in Postman to save the generated PDF."
+			},
+			"response": []
+		}
+	]
+}
