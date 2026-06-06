@@ -1,5 +1,9 @@
-# Stage 1: Build the Go binary
-FROM golang:1.25-alpine AS builder
+# Stage 1: Build the Go binary (runs natively on the builder host platform)
+FROM --platform=$BUILDPLATFORM golang:1.25-alpine AS builder
+
+# Automatically populated by Docker Buildx
+ARG TARGETOS
+ARG TARGETARCH
 
 WORKDIR /app
 
@@ -7,12 +11,13 @@ COPY go.mod ./
 COPY *.go ./
 
 RUN go mod tidy
-RUN go build -o word-templates-api .
+# Cross-compile for the target architecture without CPU emulation
+RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o word-templates-api .
 
 # Stage 2: Runtime
 FROM alpine:latest
 
-# Install libreoffice-writer (slimmed down from full libreoffice) and fontconfig
+# Install libreoffice-writer and fontconfig
 RUN apk add --no-cache libreoffice-writer fontconfig ttf-freefont
 
 # Create a non-root system group and user
@@ -29,7 +34,7 @@ RUN --mount=type=bind,target=/src \
 # Copy binary from builder
 COPY --from=builder /app/word-templates-api .
 
-# Prepare directories, copy templates, and set correct permissions for non-root user
+# Prepare directories, copy templates, and set correct permissions
 RUN --mount=type=bind,target=/src \
     mkdir -p docs tmp && \
     if [ -d /src/docs ]; then cp -r /src/docs/. docs/ 2>/dev/null || true; fi && \
